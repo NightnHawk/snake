@@ -37,9 +37,7 @@ pipeline {
                     sh 'docker tag nightnhawk/python-snake-by-chuyangliu:latest nightnhawk/python-snake-by-chuyangliu:1.0.0'
                     
                     // Push the image to Docker Hub
-                    withDockerRegistry([credentialsId: 'Docker-Hub-Credentials', url: 'https://registry.hub.docker.com']) {
-                        sh 'docker push nightnhawk/python-snake-by-chuyangliu:1.0.0'
-                    }
+                    sh 'docker push nightnhawk/python-snake-by-chuyangliu:1.0.0'
                 }
             }  
         }
