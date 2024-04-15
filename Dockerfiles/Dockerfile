@@ -1,5 +1,5 @@
 # Dockerfile
-FROM python:3.7 AS builder
+FROM cdrx/pyinstaller-linux:python3 AS builder
 
 RUN git clone https://github.com/chuyangliu/snake.git
 
