@@ -39,7 +39,8 @@ pipeline {
         }
         stage('Compile to Executable') {
             steps {
-                sh 'pyinstaller --onefile your_script.py'
+                sh 'pip install pyinstaller'
+                sh 'pyinstaller --onefile run.py'
             }
         }
         stage('Archive Executable') {
