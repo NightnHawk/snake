@@ -51,12 +51,9 @@ pipeline {
         stage('Archive Executable') {
             steps {
                 script {
-                    // Check if the dist directory exists and contains .exe files
                     if (fileExists('dist/*.exe')) {
-                        // Archive the .exe files if they exist
                         archiveArtifacts artifacts: 'dist/*.exe', fingerprint: true
                     } else {
-                        // Optionally, print a message or perform another action if no .exe files are found
                         echo "No .exe files found in dist directory."
                     }
                 }
@@ -64,15 +61,15 @@ pipeline {
         }
         stage('Push to GitHub') {
             steps {
-                sh '''
-                    git config --global user.email "grzegorz_lazinski@o2.pl"
-                    git config --global user.name "NightnHawk"
-                    git add dist/
-                    git add build/*
-                    git add run.spec
-                    git commit -m "Add executable for version 1.0.0"
-                    git push
-                '''
+                script {
+                    if (sh(script: 'git rev-parse --is-inside-work-tree', returnStdout: true).trim() == 'true' && sh(script: 'git rev-parse --is-inside-git-dir', returnStdout: true).trim() == 'false') {
+                        sh 'git checkout -b temp-branch'
+                        sh 'git push origin temp-branch'
+                        sh 'git push origin --delete temp-branch'
+                    } else {
+                        sh 'git push'
+                    }
+                }
             }
         }
     }
