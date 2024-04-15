@@ -11,6 +11,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
+                    sh 'docker rm -f my-python-app-test-container || true'
                     def testImage = docker.build('my-python-app-test:latest', '-f ./Dockerfiles/Dockerfile .')
                     def testContainer = testImage.run('--name my-python-app-test-container')
                     testContainer.inside {
