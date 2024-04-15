@@ -50,7 +50,16 @@ pipeline {
         }
         stage('Archive Executable') {
             steps {
-                archiveArtifacts artifacts: 'dist/, fingerprint: true
+                script {
+                    // Check if the dist directory exists and contains .exe files
+                    if (fileExists('dist/*.exe')) {
+                        // Archive the .exe files if they exist
+                        archiveArtifacts artifacts: 'dist/*.exe', fingerprint: true
+                    } else {
+                        // Optionally, print a message or perform another action if no .exe files are found
+                        echo "No .exe files found in dist directory."
+                    }
+                }
             }
         }
         stage('Push to GitHub') {
