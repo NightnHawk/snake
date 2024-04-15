@@ -14,10 +14,10 @@ pipeline {
                     sh 'docker rm -f my-python-app-test-container || true'
                     
                     def testImage = docker.build('my-python-app-test:latest', '-f ./Dockerfiles/Dockerfile .')
-                    def testContainer = testImage.run('--name my-python-app-test-container')
-                    testContainer.inside {
+                    testImage.inside {
                         sh 'python -m unittest discover'
                     }
+                    def testContainer = testImage.run('--name my-python-app-test-container')
                 }
             }
         }
