@@ -24,7 +24,7 @@ pipeline {
         stage('Deploy with Docker') {
             steps {
                 script {
-                    sh 'docker build -t my-python-app .'
+                    sh 'docker build -t my-python-app -f ./Dockerfiles/Dockerfile .'
                     withDockerRegistry(credentialsId: 'my-docker-registry-credentials', toolName: 'docker') {
                         sh 'docker push my-python-app:latest'
                     }
