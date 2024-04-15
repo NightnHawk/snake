@@ -24,6 +24,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
+                    sh 'docker rm -f my-python-app-deployst-container || true'
+
                     def deployImage = docker.build('my-python-app-deploy:latest', '-f ./Dockerfiles/Dockerfile .')
                     deployImage.inside {
                         sh 'echo "Deploying..."'
