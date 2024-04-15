@@ -3,7 +3,7 @@ pipeline {
     docker {
         image 'registry.hub.docker.com/NightnHawk/python-snake-by-chuyangliu'
         registryUrl 'https://registry.hub.docker.com'
-        registryCredentialsId '1234'
+        registryCredentialsId 'Docker-Hub-Credentials'
     }
 }
     stages {
@@ -30,11 +30,11 @@ pipeline {
         stage('Deploy with Docker') {
             steps {
                 script {
-                    def appImage = docker.build('your-dockerhub-username/python-snake-by-chuyangliu:latest', '-f ./Dockerfiles/Dockerfile .')
+                    def appImage = docker.build('nightnhawk/python-snake-by-chuyangliu:latest', '-f ./Dockerfiles/Dockerfile .')
 
-                    appImage.tag('NightnHawk/python-snake-by-chuyangliu:1.0.0')
+                    appImage.tag('nightnhawk/python-snake-by-chuyangliu:1.0.0')
 
-                    withDockerRegistry([credentialsId: '1234', url: 'https://registry.hub.docker.com']) {
+                    withDockerRegistry([credentialsId: 'Docker-Hub-Credentials', url: 'https://registry.hub.docker.com']) {
                         appImage.push('1.0.0')
                     }
                 }
