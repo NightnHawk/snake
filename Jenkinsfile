@@ -28,6 +28,7 @@ pipeline {
                     def appImage = docker.build('nightnhawk/python-snake-by-chuyangliu:latest', '-f ./Dockerfiles/Dockerfile .')
                     
                     // Correctly tag the image
+                    sh 'docker login https://index.docker.io/v1/ -u=nightnhawk'
                     sh 'docker tag nightnhawk/python-snake-by-chuyangliu:latest nightnhawk/python-snake-by-chuyangliu:1.0.0'
                     
                     // Push the image to Docker Hub
