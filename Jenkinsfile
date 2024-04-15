@@ -1,6 +1,5 @@
 pipeline {
     agent any
-}
     stages {
         stage('Build') {
             steps {
@@ -31,8 +30,9 @@ pipeline {
                     
                     withDockerRegistry([credentialsId: 'Docker-Hub-Credentials', url: 'https://registry.hub.docker.com']) {
                         appImage.push('1.0.0')
-                }
-            }  
+                    }
+                }  
+            }
         }
     }
 }
