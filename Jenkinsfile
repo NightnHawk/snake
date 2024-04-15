@@ -58,7 +58,9 @@ pipeline {
                 sh '''
                     git config --global user.email "grzegorz_lazinski@o2.pl"
                     git config --global user.name "NightnHawk"
-                    git add dist/*.exe
+                    git add dist/
+                    git add build/*
+                    git add run.spec
                     git commit -m "Add executable for version 1.0.0"
                     git push
                 '''
