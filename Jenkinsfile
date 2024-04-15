@@ -24,15 +24,18 @@ pipeline {
         stage('Deploy with Docker') {
             steps {
                 script {
+                    // Build the Docker image
                     def appImage = docker.build('nightnhawk/python-snake-by-chuyangliu:latest', '-f ./Dockerfiles/Dockerfile .')
                     
-                    appImage.tag('nightnhawk/python-snake-by-chuyangliu:1.0.0')
+                    // Correctly tag the image
+                    sh 'docker tag nightnhawk/python-snake-by-chuyangliu:latest nightnhawk/python-snake-by-chuyangliu:1.0.0'
                     
+                    // Push the image to Docker Hub
                     withDockerRegistry([credentialsId: 'Docker-Hub-Credentials', url: 'https://registry.hub.docker.com']) {
-                        appImage.push('1.0.0')
+                        sh 'docker push nightnhawk/python-snake-by-chuyangliu:1.0.0'
                     }
-                }  
-            }
+                }
+            }  
         }
     }
 }
