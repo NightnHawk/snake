@@ -1,7 +1,7 @@
 pipeline {
     agent { 
     docker {
-        image 'registry.hub.docker.com/NightnHawk/python-snake-by-chuyangliu'
+        image 'registry.hub.docker.com/nightnhawk/python-snake-by-chuyangliu'
         registryUrl 'https://registry.hub.docker.com'
         registryCredentialsId 'Docker-Hub-Credentials'
     }
