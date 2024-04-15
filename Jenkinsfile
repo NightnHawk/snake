@@ -63,7 +63,12 @@ pipeline {
             steps {
                 script {
                     if (sh(script: 'git rev-parse --is-inside-work-tree', returnStdout: true).trim() == 'true' && sh(script: 'git rev-parse --is-inside-git-dir', returnStdout: true).trim() == 'false') {
-                        sh 'git checkout -b temp-branch'
+                        if (sh(script: 'git show-ref --verify --quiet refs/heads/temp-branch', returnStatus: true) != 0) {
+                            sh 'git checkout -b temp-branch'
+                        } else {
+                            sh 'git branch -D temp-branch'
+                            sh 'git checkout -b temp-branch'
+                        }
                         withCredentials([string(credentialsId: 'PAT', variable: 'GITHUB_PAT')]) {
                             sh 'git config --global url."https://${GITHUB_PAT}@github.com/".insteadOf "https://github.com/"'
                             sh 'git push origin temp-branch'
