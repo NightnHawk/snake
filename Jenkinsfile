@@ -42,7 +42,7 @@ pipeline {
                 script {
                     def publishImage = docker.build('my-python-app-publish:latest', '-f ./Dockerfiles/Dockerfile .')
                     publishImage.inside {
-                        sh 'pip install pyinstaller'
+                        sh 'sudo -H pip install pyinstaller'
                         sh 'pyinstaller --onefile run.py'
                     }
                 }
