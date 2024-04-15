@@ -1,10 +1,5 @@
 pipeline {
-    agent { 
-    docker {
-        image 'registry.hub.docker.com/nightnhawk/python-snake-by-chuyangliu'
-        registryUrl 'https://registry.hub.docker.com'
-        registryCredentialsId 'Docker-Hub-Credentials'
-    }
+    agent any
 }
     stages {
         stage('Build') {
@@ -31,12 +26,11 @@ pipeline {
             steps {
                 script {
                     def appImage = docker.build('nightnhawk/python-snake-by-chuyangliu:latest', '-f ./Dockerfiles/Dockerfile .')
-
+                    
                     appImage.tag('nightnhawk/python-snake-by-chuyangliu:1.0.0')
-
+                    
                     withDockerRegistry([credentialsId: 'Docker-Hub-Credentials', url: 'https://registry.hub.docker.com']) {
                         appImage.push('1.0.0')
-                    }
                 }
             }  
         }
