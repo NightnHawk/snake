@@ -50,7 +50,7 @@ pipeline {
         }
         stage('Archive Executable') {
             steps {
-                archiveArtifacts artifacts: 'dist/*.exe', fingerprint: true
+                archiveArtifacts artifacts: 'dist/, fingerprint: true
             }
         }
         stage('Push to GitHub') {
