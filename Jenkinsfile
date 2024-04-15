@@ -64,10 +64,16 @@ pipeline {
                 script {
                     if (sh(script: 'git rev-parse --is-inside-work-tree', returnStdout: true).trim() == 'true' && sh(script: 'git rev-parse --is-inside-git-dir', returnStdout: true).trim() == 'false') {
                         sh 'git checkout -b temp-branch'
-                        sh 'git push origin temp-branch'
-                        sh 'git push origin --delete temp-branch'
+                        withCredentials([string(credentialsId: 'PAT', variable: 'GITHUB_PAT')]) {
+                            sh 'git config --global url."https://${GITHUB_PAT}@github.com/".insteadOf "https://github.com/"'
+                            sh 'git push origin temp-branch'
+                            sh 'git push origin --delete temp-branch'
+                        }
                     } else {
-                        sh 'git push'
+                        withCredentials([string(credentialsId: 'PAT', variable: 'GITHUB_PAT')]) {
+                            sh 'git config --global url."https://${GITHUB_PAT}@github.com/".insteadOf "https://github.com/"'
+                            sh 'git push'
+                        }
                     }
                 }
             }
