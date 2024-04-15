@@ -25,10 +25,10 @@ pipeline {
             steps {
                 script {
                     def deployImage = docker.build('my-python-app-deploy:latest', '-f ./Dockerfiles/Dockerfile .')
-                    def deployContainer = deployImage.run('--name my-python-app-deploy-container')
-                    deployContainer.inside {
+                    deployImage.inside {
                         sh 'echo "Deploying..."'
                     }
+                    def deployContainer = deployImage.run('--name my-python-app-deploy-container')
                 }
             }
         }
