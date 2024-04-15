@@ -21,18 +21,16 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
+        stage('Deploy with Docker') {
             steps {
                 script {
-                    sh 'docker rm -f my-python-app-deploy-container || true'
-
-                    def deployImage = docker.build('my-python-app-deploy:latest', '-f ./Dockerfiles/Dockerfile .')
-                    deployImage.inside {
-                        sh 'echo "Deploying..."'
+                    sh 'docker build -t my-python-app .'
+                    withDockerRegistry(credentialsId: 'my-docker-registry-credentials', toolName: 'docker') {
+                        sh 'docker push my-python-app:latest'
                     }
-                    def deployContainer = deployImage.run('--name my-python-app-deploy-container')
+                    sh 'ssh ubuntu@ec2-xx-xx-xx-xx.compute-1.amazonaws.com "docker pull my-python-app:latest && docker run -d -p 80:80 my-python-app:latest"'
                 }
-            }
+            }  
         }
-    }s
+    }
 }
