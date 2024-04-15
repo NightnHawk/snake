@@ -21,6 +21,13 @@ pipeline {
                 }
             }
         }
+        stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'Docker-Hub-Credentials', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                }
+            }
+        }
         stage('Deploy with Docker') {
             steps {
                 script {
