@@ -5,6 +5,7 @@ pipeline {
             steps {
                 script {
                     def appImage = docker.build('my-python-app:latest', '-f ./Dockerfiles/Dockerfile .')
+                    env.APP_IMAGE = appImage
                 }
             }
         }
@@ -13,7 +14,8 @@ pipeline {
                 script {
                     sh 'docker rm -f my-python-app-test-container || true'
                     
-                    def testImage = docker.build('my-python-app-test:latest', '-f ./Dockerfiles/Dockerfile .')
+                    // def testImage = docker.build('my-python-app-test:latest', '-f ./Dockerfiles/Dockerfile .')
+                    def testImage = env.APP_IMAGE
                     testImage.inside {
                         sh 'python -m pytest'
                     }
