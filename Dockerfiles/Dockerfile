@@ -9,6 +9,8 @@ WORKDIR ./snake
 
 RUN pip install -r requirements.txt
 
+RUN pip install pyinstaller
+
 FROM builder AS tester
 
 COPY --from=builder /snake /snake
