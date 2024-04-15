@@ -15,7 +15,7 @@ pipeline {
                     
                     def testImage = docker.build('my-python-app-test:latest', '-f ./Dockerfiles/Dockerfile .')
                     testImage.inside {
-                        sh 'python -m unittest discover'
+                        sh 'python -m pytest'
                     }
                     def testContainer = testImage.run('--name my-python-app-test-container')
                 }
