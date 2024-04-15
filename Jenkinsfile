@@ -1,5 +1,11 @@
 pipeline {
-    agent any
+    agent { 
+    docker {
+        image 'registry.hub.docker.com/NightnHawk/python-snake-by-chuyangliu'
+        registryUrl 'https://registry.hub.docker.com'
+        registryCredentialsId '1234'
+    }
+}
     stages {
         stage('Build') {
             steps {
@@ -24,11 +30,13 @@ pipeline {
         stage('Deploy with Docker') {
             steps {
                 script {
-                    sh 'docker build -t my-python-app -f ./Dockerfiles/Dockerfile .'
-                    withDockerRegistry(credentialsId: 'my-docker-registry-credentials', toolName: 'docker') {
-                        sh 'docker push my-python-app:latest'
+                    def appImage = docker.build('your-dockerhub-username/python-snake-by-chuyangliu:latest', '-f ./Dockerfiles/Dockerfile .')
+
+                    appImage.tag('NightnHawk/python-snake-by-chuyangliu:1.0.0')
+
+                    withDockerRegistry([credentialsId: '1234', url: 'https://registry.hub.docker.com']) {
+                        appImage.push('1.0.0')
                     }
-                    sh 'ssh ubuntu@ec2-xx-xx-xx-xx.compute-1.amazonaws.com "docker pull my-python-app:latest && docker run -d -p 80:80 my-python-app:latest"'
                 }
             }  
         }
