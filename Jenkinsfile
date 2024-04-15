@@ -40,9 +40,9 @@ pipeline {
         stage('Compile to Executable') {
             steps {
                 script {
-                    def publishImage = docker.build('my-python-app-publish:latest', '-f ./Dockerfiles/Dockerfile .')
+                    def publishImage = docker.build('my-python-app-publish:latest', '-f ./Dockerfiles/Dockerfile.publisher .')
                     publishImage.inside {
-                        sh 'sudo -H pip install pyinstaller'
+                        sh 'sudo pip install pyinstaller'
                         sh 'pyinstaller --onefile run.py'
                     }
                 }
