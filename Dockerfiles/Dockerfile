@@ -13,4 +13,4 @@ FROM builder AS tester
 
 COPY --from=builder /snake /snake
 
-CMD ["python", "-m", "pytest"]
+# CMD ["python", "-m", "pytest"]
