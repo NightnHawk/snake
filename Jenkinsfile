@@ -32,8 +32,8 @@ pipeline {
             steps {
                 script {
                     def appImage = docker.build('nightnhawk/python-snake-by-chuyangliu:latest', '-f ./Dockerfiles/Dockerfile .')
-                    sh 'docker tag nightnhawk/python-snake-by-chuyangliu:latest nightnhawk/python-snake-by-chuyangliu:1.0.0'
-                    sh 'docker push nightnhawk/python-snake-by-chuyangliu:1.0.0'
+                    sh 'docker tag nightnhawk/python-snake-by-chuyangliu:latest nightnhawk/python-snake-by-chuyangliu:1.0.1'
+                    sh 'docker push nightnhawk/python-snake-by-chuyangliu:1.0.1'
                 }
             }  
         }
